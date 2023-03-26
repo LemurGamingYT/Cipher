@@ -20,6 +20,8 @@ func NewEnv() *Env {
 		functionprintln)
 	functions["print"] = NewFuncObject("print", []string{"value"}, nil,
 		functionprint)
+	functions["min"] = NewFuncObject("min", []string{"value1", "value2"}, nil, functionmin)
+	functions["max"] = NewFuncObject("max", []string{"value1", "value2"}, nil, functionmax)
 
 	return &Env{variables, functions}
 }

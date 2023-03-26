@@ -17,17 +17,17 @@ type CipherVisitor interface {
 	// Visit a parse tree produced by CipherParser#stmt.
 	VisitStmt(ctx *StmtContext) interface{}
 
-	// Visit a parse tree produced by CipherParser#iterationStmts.
-	VisitIterationStmts(ctx *IterationStmtsContext) interface{}
-
-	// Visit a parse tree produced by CipherParser#functionStmts.
-	VisitFunctionStmts(ctx *FunctionStmtsContext) interface{}
+	// Visit a parse tree produced by CipherParser#keywordStmts.
+	VisitKeywordStmts(ctx *KeywordStmtsContext) interface{}
 
 	// Visit a parse tree produced by CipherParser#allStmts.
 	VisitAllStmts(ctx *AllStmtsContext) interface{}
 
-	// Visit a parse tree produced by CipherParser#importStmt.
-	VisitImportStmt(ctx *ImportStmtContext) interface{}
+	// Visit a parse tree produced by CipherParser#useList.
+	VisitUseList(ctx *UseListContext) interface{}
+
+	// Visit a parse tree produced by CipherParser#useStmt.
+	VisitUseStmt(ctx *UseStmtContext) interface{}
 
 	// Visit a parse tree produced by CipherParser#ifStmt.
 	VisitIfStmt(ctx *IfStmtContext) interface{}
@@ -37,15 +37,6 @@ type CipherVisitor interface {
 
 	// Visit a parse tree produced by CipherParser#condition.
 	VisitCondition(ctx *ConditionContext) interface{}
-
-	// Visit a parse tree produced by CipherParser#undefineStmt.
-	VisitUndefineStmt(ctx *UndefineStmtContext) interface{}
-
-	// Visit a parse tree produced by CipherParser#inheritList.
-	VisitInheritList(ctx *InheritListContext) interface{}
-
-	// Visit a parse tree produced by CipherParser#classdef.
-	VisitClassdef(ctx *ClassdefContext) interface{}
 
 	// Visit a parse tree produced by CipherParser#args.
 	VisitArgs(ctx *ArgsContext) interface{}
@@ -67,9 +58,6 @@ type CipherVisitor interface {
 
 	// Visit a parse tree produced by CipherParser#getAttributes.
 	VisitGetAttributes(ctx *GetAttributesContext) interface{}
-
-	// Visit a parse tree produced by CipherParser#funcExpr.
-	VisitFuncExpr(ctx *FuncExprContext) interface{}
 
 	// Visit a parse tree produced by CipherParser#expr.
 	VisitExpr(ctx *ExprContext) interface{}

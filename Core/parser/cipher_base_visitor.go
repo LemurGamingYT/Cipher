@@ -20,11 +20,7 @@ func (v *BaseCipherVisitor) VisitStmt(ctx *StmtContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseCipherVisitor) VisitIterationStmts(ctx *IterationStmtsContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseCipherVisitor) VisitFunctionStmts(ctx *FunctionStmtsContext) interface{} {
+func (v *BaseCipherVisitor) VisitKeywordStmts(ctx *KeywordStmtsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -32,7 +28,11 @@ func (v *BaseCipherVisitor) VisitAllStmts(ctx *AllStmtsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseCipherVisitor) VisitImportStmt(ctx *ImportStmtContext) interface{} {
+func (v *BaseCipherVisitor) VisitUseList(ctx *UseListContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCipherVisitor) VisitUseStmt(ctx *UseStmtContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -45,18 +45,6 @@ func (v *BaseCipherVisitor) VisitWhileStmt(ctx *WhileStmtContext) interface{} {
 }
 
 func (v *BaseCipherVisitor) VisitCondition(ctx *ConditionContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseCipherVisitor) VisitUndefineStmt(ctx *UndefineStmtContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseCipherVisitor) VisitInheritList(ctx *InheritListContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseCipherVisitor) VisitClassdef(ctx *ClassdefContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -85,10 +73,6 @@ func (v *BaseCipherVisitor) VisitFuncAssign(ctx *FuncAssignContext) interface{} 
 }
 
 func (v *BaseCipherVisitor) VisitGetAttributes(ctx *GetAttributesContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseCipherVisitor) VisitFuncExpr(ctx *FuncExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

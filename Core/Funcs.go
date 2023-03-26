@@ -3,36 +3,46 @@ package core
 import "fmt"
 
 func functionprintln(args []any, visitor *Visitor) any {
-	value := args[0]
+	LengthArgsCheck(args, 1)
+	value := GetArgument(args, 0)
 
 	fmt.Printf("%s\n", ReprOfObject(value))
-
-	/*
-		switch value.(type) {
-		case *StringObject:
-			println(value.(*StringObject).value)
-		case *IntObject:
-			println(value.(*IntObject).value)
-		case *FloatObject:
-			println(value.(*FloatObject).value)
-		case *BoolObject:
-			println(value.(*BoolObject).value)
-		case *IdObject:
-			println(visitor.Env.variables[value.(*IdObject).value].value)
-		case NullObject:
-			println("null")
-		default:
-			r := reflect.ValueOf(val).MethodByName("Repr")
-			return r.Call([]reflect.Value{reflect.ValueOf(val)})
-		}*/
 
 	return NewNullObject()
 }
 
 func functionprint(args []any, visitor *Visitor) any {
-	value := args[0]
+	LengthArgsCheck(args, 1)
+	value := GetArgument(args, 0)
 
-	fmt.Printf("%s\n", ReprOfObject(value))
+	fmt.Printf("%s", ReprOfObject(value))
 
 	return NewNullObject()
+}
+
+func functionmin(args []any, visitor *Visitor) any {
+	if val, ok := args[0].(*IntObject); ok {
+		if val2, ok := args[1].(*IntObject); ok {
+			if val.value > val2.value {
+				return val2
+			}
+			return val
+		}
+	}
+
+	return args[0]
+}
+
+func functionmax(args []any, visitor *Visitor) any {
+	if val, ok := args[0].(*IntObject); ok {
+		if val2, ok := args[1].(*IntObject); ok {
+			if val.value > val2.value {
+				return val
+			} else {
+				return val2
+			}
+		}
+	}
+
+	return args[0]
 }

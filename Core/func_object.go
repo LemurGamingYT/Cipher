@@ -2,6 +2,7 @@ package core
 
 import (
 	"Cipher/Core/parser"
+	"fmt"
 )
 
 type FuncObject struct {
@@ -20,6 +21,10 @@ func (f *FuncObject) Call(args []any, v *Visitor) any {
 	} else {
 		return NewNullObject()
 	}
+}
+
+func (f *FuncObject) Repr(context any) string {
+	return fmt.Sprintf("Function(name=%s, at=%p, params=%s)\n", f.name, f, f.params)
 }
 
 func NewFuncObject(name string, params []string, block *parser.BlockContext,

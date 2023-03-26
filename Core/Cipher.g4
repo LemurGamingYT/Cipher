@@ -1,6 +1,5 @@
 grammar Cipher;
 
-/* Lexer */
 LPAREN: '(';
 RPAREN: ')';
 LBRACE: '{';
@@ -10,29 +9,17 @@ RLIST: ']';
 ASSIGN: '=';
 DOT: '.';
 COMMA: ',';
-COLON: ':';
-SEMI: ';';
-LARROW: '->';
-RARROW: '<-';
-ARROWASSIGN: '=>';
 QUESTION: '?';
-
-// Predecence Operators
 NOT: '!' | 'not';
-PREDTWO: '+' | '-' | '**';
+PREDTWO: '+' | '-' | '^';
 PREDONE: '*' | '/' | '%';
-COMPARATIVE: '==' | '!=' | '~=' | '>' | '<' | '<=' | '>=' | 'and' | '&&' | 'or' | '||';
-
-/// Keywords
+COMPARATIVE: '==' | '!=' | '>' | '<' | '<=' | '>=' | 'and' | '&&' | 'or' | '||';
 FUNC: 'func';
 IF: 'if';
 ELSE: 'else';
 WHILE: 'while';
-IMPORT: 'import';
-FROM: 'from';
+USE: 'use';
 OVERRIDE: 'override';
-NEW: 'new';
-CLASS: 'class';
 PUBLIC: 'public';
 PRIVATE: 'private';
 RETURN: 'return';
@@ -40,66 +27,34 @@ BREAK: 'break';
 CONTINUE: 'continue';
 UNDEFINE: 'undefine';
 CONST: 'const';
-
-/// Skipped Rules
 WS: [ \t\r\n]+ -> skip;
 COMMENT: ('//' | '<--' | '#') ~[\r\n]* -> skip;
 MULTILINECOMMENT: '/*' .*? '*/' -> skip;
-
-/// Data Types
-BOOL: ('true' | 'false');
+BOOL: 'true' | 'false';
 NULL: 'null';
-
-APOSTROPHE: '\'';
-
 ID: [a-zA-Z_] [a-zA-Z_0-9]*;
 INT: '-'? [0-9]+;
 FLOAT: '-'? [0-9]* '.' [0-9]+;
-STRING: ('"' | APOSTROPHE) .*? ('"' | APOSTROPHE);
+STRING: '"' ('\\' . | ~[\\"\r\n])* '"' | '\'' ('\\' . | ~[\\'\r\n])* '\'';
 
-/* Parser */
 parse: stmt* EOF;
 
-block: LBRACE stmt* RBRACE | stmt;
+block: LBRACE stmt* RBRACE;
 
-stmt
-    : expr
-    | assignments
-    | classdef
-    | allStmts
-    | iterationStmts
-    | functionStmts
-    ;
+stmt: expr | assignments | allStmts | keywordStmts;
 
-iterationStmts: BREAK | CONTINUE;
-functionStmts: RETURN expr;
+keywordStmts: BREAK | CONTINUE | RETURN expr;
 
-allStmts
-    : ifStmt
-    | whileStmt
-    | undefineStmt
-    | importStmt
-    ;
+allStmts: ifStmt | whileStmt | useStmt;
 
-importStmt
-    : IMPORT STRING (COMMA STRING)* FROM STRING
-    ;
+useList: STRING (COMMA STRING)*;
+useStmt: USE useList;
 
-ifStmt
-    : IF condition block (ELSE IF condition block)* (ELSE block)?
-    ;
+ifStmt: IF condition block (ELSE IF condition block)* (ELSE block)?;
 
-whileStmt
-    : WHILE condition block
-    ;
+whileStmt: WHILE condition block;
 
 condition: expr;
-
-undefineStmt: UNDEFINE LPAREN ID RPAREN;
-
-inheritList: ID (COMMA ID)*;
-
-classdef: CLASS ID RARROW inheritList?;
 
 args: expr (COMMA expr)*;
 params: ID (COMMA ID)*;
@@ -109,27 +64,12 @@ call: ID LPAREN args? RPAREN;
 assignments: varAssign | funcAssign;
 
 varAssign: (PUBLIC | PRIVATE)? CONST? ID ASSIGN expr;
-funcAssign
-    : (PUBLIC | PRIVATE)? FUNC OVERRIDE? ID LPAREN params? RPAREN block
-    | (PUBLIC | PRIVATE)? ID LPAREN params? RPAREN ARROWASSIGN block
-    ;
+funcAssign: (PUBLIC | PRIVATE)? FUNC OVERRIDE? ID LPAREN params? RPAREN block;
 
-getAttributes: atom (DOT ID LPAREN args? RPAREN)*;
+getAttributes: atom DOT ID LPAREN args? RPAREN;
 
-funcExpr: ID LPAREN params? RPAREN ARROWASSIGN block;
+expr: call | atom | LPAREN expr RPAREN | op=NOT expr | expr op=PREDONE expr | expr op=PREDTWO expr | expr op=COMPARATIVE expr | getAttributes;
 
-expr
-    : call
-    | atom
-    | op=NOT expr
-    | expr op=PREDONE expr
-    | expr op=PREDTWO expr
-    | expr op=COMPARATIVE expr
-    | getAttributes
-    | funcExpr
-    | LPAREN expr RPAREN
-    ;
-
-array: LBRACE args? RBRACE;
+array: LLIST args? RLIST;
 
 atom: array | ID | INT | FLOAT | STRING | NULL | BOOL;

@@ -10,24 +10,29 @@ import (
 	"time"
 )
 
+var Operators = map[string]string{
+	"+":   "Add",
+	"-":   "Sub",
+	"*":   "Mul",
+	"/":   "Div",
+	"^":   "Pow",
+	"%":   "Mod",
+	"==":  "Eq",
+	"!=":  "Neq",
+	">":   "Gt",
+	"<":   "Lt",
+	"<=":  "Lte",
+	">=":  "Gte",
+	"&&":  "And",
+	"and": "And",
+	"or":  "Or",
+	"||":  "Or",
+	"!":   "Not",
+	"not": "Not",
+	"~=":  "Neq",
+}
+
 func main() {
-	/*
-		f, err := os.Create("profile.prof")
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer func(f *os.File) {
-			err := f.Close()
-			if err != nil {
-				log.Fatal(err)
-			}
-		}(f)
-
-		if err := pprof.StartCPUProfile(f); err != nil {
-			log.Fatal(err)
-		}
-		defer pprof.StopCPUProfile()*/
-
 	st := time.Now()
 
 	input, _ := antlr.NewFileStream(os.Args[1])
@@ -36,18 +41,13 @@ func main() {
 	stream := antlr.NewCommonTokenStream(lexer, 0)
 
 	p := cipher.NewCipherParser(stream)
+	p.RemoveErrorListeners()
+	p.AddErrorListener(&core.ErrorListener{})
 	p.BuildParseTrees = true
-	/*
-		interpreter := p.Interpreter
-		if interpreter != nil {
-			interpreter.SetPredictionMode(antlr.PredictionModeLL)
-			interpreter.SetPredictionMode(antlr.PredictionModeLLExactAmbigDetection)
-		}*/
 
 	tree := p.Parse()
-	// println(tree.ToStringTree([]string{}, p))
 
-	v := core.Visitor{Env: core.NewEnv()}
+	v := core.Visitor{Env: core.NewEnv(), Operators: Operators}
 	v.VisitParse(tree.(*cipher.ParseContext))
 
 	elapsed := time.Since(st)
