@@ -1,27 +1,48 @@
 package core
 
 import (
-	"reflect"
+	"strings"
 )
 
 type ArrayObject struct {
 	value []any
 }
 
-func (a *ArrayObject) Repr(context any) string {
-	repr := make([]byte, 0, 2+len(a.value)*10)
-	repr = append(repr, '[')
+func (a *ArrayObject) Repr(_ any) string {
+	var builder strings.Builder
+
+	builder.WriteRune('[')
+
 	for i, obj := range a.value {
-		m, _ := reflect.TypeOf(obj).MethodByName("Repr")
-		args := []reflect.Value{reflect.ValueOf(a), reflect.ValueOf(obj)}
-		repr = m.Func.Call(args)[0].Interface().([]byte)
-		if i < len(a.value)-1 {
-			repr = append(repr, ',')
+		repr := ReprOfObject(obj, a)
+		if i != 0 {
+			builder.WriteString(", ")
 		}
-		repr = append(repr)
+		builder.WriteString(repr)
 	}
-	repr = append(repr, ']')
-	return string(repr)
+
+	builder.WriteRune(']')
+
+	return builder.String()
+}
+
+func (a *ArrayObject) Add(other any) *ArrayObject {
+	if IsInstance(other, ArrayObjectType) {
+		values := other.(*ArrayObject).value
+		a.value = append(a.value[:len(a.value)], values...)
+		return a
+		/*values := other.(*ArrayObject).value
+		newLen := len(a.value) + len(values)
+		newValue := make([]interface{}, newLen)
+
+		copy(newValue, a.value)
+		copy(newValue[len(a.value):], values)
+
+		return NewArrayObject(newValue)*/
+	} else {
+		ReportOperatorError("+", a, other)
+		return nil
+	}
 }
 
 func (a *ArrayObject) NewArrayObject(args []any) *ArrayObject {

@@ -6,7 +6,10 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+	_ "net/http/pprof"
 	"os"
+	"runtime"
+	"runtime/pprof"
 	"time"
 )
 
@@ -33,6 +36,19 @@ var Operators = map[string]string{
 }
 
 func main() {
+	f, _ := os.Create("main.profile")
+	defer func(f *os.File) {
+		err := f.Close()
+		if err != nil {
+			return
+		}
+	}(f)
+	runtime.GC()
+	err := pprof.StartCPUProfile(f)
+	if err != nil {
+		return
+	}
+
 	st := time.Now()
 
 	input, _ := antlr.NewFileStream(os.Args[1])
@@ -54,8 +70,10 @@ func main() {
 	fmt.Printf("Time to execute %v\n", elapsed)
 
 	reader := bufio.NewReader(os.Stdin)
-	_, err := reader.ReadString('\n')
+	_, err = reader.ReadString('\n')
 	if err != nil {
 		return
 	}
+
+	pprof.StopCPUProfile()
 }

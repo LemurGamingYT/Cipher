@@ -1,19 +1,13 @@
 grammar Cipher;
 
-LPAREN: '(';
-RPAREN: ')';
-LBRACE: '{';
-RBRACE: '}';
-LLIST: '[';
-RLIST: ']';
 ASSIGN: '=';
 DOT: '.';
 COMMA: ',';
 QUESTION: '?';
 NOT: '!' | 'not';
-PREDTWO: '+' | '-' | '^';
-PREDONE: '*' | '/' | '%';
-COMPARATIVE: '==' | '!=' | '>' | '<' | '<=' | '>=' | 'and' | '&&' | 'or' | '||';
+PREDTWO: ('+' | '-' | '^');
+PREDONE: ('*' | '/' | '%');
+COMPARATIVE: ('==' | '!=' | '>' | '<' | '<=' | '>=' | '&&' | '||');
 FUNC: 'func';
 IF: 'if';
 ELSE: 'else';
@@ -25,7 +19,6 @@ PRIVATE: 'private';
 RETURN: 'return';
 BREAK: 'break';
 CONTINUE: 'continue';
-UNDEFINE: 'undefine';
 CONST: 'const';
 WS: [ \t\r\n]+ -> skip;
 COMMENT: ('//' | '<--' | '#') ~[\r\n]* -> skip;
@@ -35,11 +28,11 @@ NULL: 'null';
 ID: [a-zA-Z_] [a-zA-Z_0-9]*;
 INT: '-'? [0-9]+;
 FLOAT: '-'? [0-9]* '.' [0-9]+;
-STRING: '"' ('\\' . | ~[\\"\r\n])* '"' | '\'' ('\\' . | ~[\\'\r\n])* '\'';
+STRING: '"' .*? '"' | '\'' .*? '\'';
 
 parse: stmt* EOF;
 
-block: LBRACE stmt* RBRACE;
+block: '{' stmt* '}';
 
 stmt: expr | assignments | allStmts | keywordStmts;
 
@@ -47,29 +40,32 @@ keywordStmts: BREAK | CONTINUE | RETURN expr;
 
 allStmts: ifStmt | whileStmt | useStmt;
 
-useList: STRING (COMMA STRING)*;
-useStmt: USE useList;
+useStmt: 'use' STRING;
 
 ifStmt: IF condition block (ELSE IF condition block)* (ELSE block)?;
 
-whileStmt: WHILE condition block;
+whileStmt: 'while' condition block;
 
 condition: expr;
 
-args: expr (COMMA expr)*;
-params: ID (COMMA ID)*;
+args: expr (',' expr)*;
+params: ID (',' ID)*;
 
-call: ID LPAREN args? RPAREN;
+call: ID '(' args? ')';
 
 assignments: varAssign | funcAssign;
 
-varAssign: (PUBLIC | PRIVATE)? CONST? ID ASSIGN expr;
-funcAssign: (PUBLIC | PRIVATE)? FUNC OVERRIDE? ID LPAREN params? RPAREN block;
+varAssign: (PUBLIC | PRIVATE)? CONST? ID (PREDONE | PREDTWO)? ASSIGN expr;
+funcAssign: (PUBLIC | PRIVATE)? 'func' OVERRIDE? ID '(' params? ')' block;
 
-getAttributes: atom DOT ID LPAREN args? RPAREN;
+getAttributes: (STRING | ID) '.' ID '(' args? ')';
 
-expr: call | atom | LPAREN expr RPAREN | op=NOT expr | expr op=PREDONE expr | expr op=PREDTWO expr | expr op=COMPARATIVE expr | getAttributes;
+memoryAddress: '&' ID;
 
-array: LLIST args? RLIST;
+cast: atom '.' '(' ID ')';
+
+expr: call | atom | '(' expr ')' | op=NOT expr | expr op=PREDONE expr | expr op=PREDTWO expr | expr op=COMPARATIVE expr | cast | getAttributes | memoryAddress;
+
+array: '[' args? ']';
 
 atom: array | ID | INT | FLOAT | STRING | NULL | BOOL;

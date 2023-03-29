@@ -23,9 +23,6 @@ type CipherVisitor interface {
 	// Visit a parse tree produced by CipherParser#allStmts.
 	VisitAllStmts(ctx *AllStmtsContext) interface{}
 
-	// Visit a parse tree produced by CipherParser#useList.
-	VisitUseList(ctx *UseListContext) interface{}
-
 	// Visit a parse tree produced by CipherParser#useStmt.
 	VisitUseStmt(ctx *UseStmtContext) interface{}
 
@@ -58,6 +55,12 @@ type CipherVisitor interface {
 
 	// Visit a parse tree produced by CipherParser#getAttributes.
 	VisitGetAttributes(ctx *GetAttributesContext) interface{}
+
+	// Visit a parse tree produced by CipherParser#memoryAddress.
+	VisitMemoryAddress(ctx *MemoryAddressContext) interface{}
+
+	// Visit a parse tree produced by CipherParser#cast.
+	VisitCast(ctx *CastContext) interface{}
 
 	// Visit a parse tree produced by CipherParser#expr.
 	VisitExpr(ctx *ExprContext) interface{}

@@ -28,10 +28,6 @@ func (v *BaseCipherVisitor) VisitAllStmts(ctx *AllStmtsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseCipherVisitor) VisitUseList(ctx *UseListContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
 func (v *BaseCipherVisitor) VisitUseStmt(ctx *UseStmtContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -73,6 +69,14 @@ func (v *BaseCipherVisitor) VisitFuncAssign(ctx *FuncAssignContext) interface{} 
 }
 
 func (v *BaseCipherVisitor) VisitGetAttributes(ctx *GetAttributesContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCipherVisitor) VisitMemoryAddress(ctx *MemoryAddressContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCipherVisitor) VisitCast(ctx *CastContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

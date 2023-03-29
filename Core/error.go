@@ -10,9 +10,9 @@ type ErrorListener struct {
 	antlr.DefaultErrorListener
 }
 
-func (d *ErrorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int,
-	msg string, e antlr.RecognitionException) {
-	ReportError("Syntax", fmt.Sprintf("'%s' at ln %d, column %d\n",
+func (d *ErrorListener) SyntaxError(_ antlr.Recognizer, offendingSymbol interface{}, line, column int,
+	_ string, _ antlr.RecognitionException) {
+	ReportError("Syntax", fmt.Sprintf("Unexpected '%s' at ln %d, column %d\n",
 		offendingSymbol.(*antlr.CommonToken).GetText(), line, column))
 }
 

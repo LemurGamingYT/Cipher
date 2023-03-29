@@ -15,7 +15,7 @@ type FuncObject struct {
 
 func (f *FuncObject) Call(args []any, v *Visitor) any {
 	if f.block != nil {
-		return v.VisitBlock(f.block)
+		return v.VisitBlock(f.block, false)
 	} else if f.function != nil {
 		return f.function(args, v)
 	} else {
@@ -23,7 +23,7 @@ func (f *FuncObject) Call(args []any, v *Visitor) any {
 	}
 }
 
-func (f *FuncObject) Repr(context any) string {
+func (f *FuncObject) Repr(_ any) string {
 	return fmt.Sprintf("Function(name=%s, at=%p, params=%s)\n", f.name, f, f.params)
 }
 

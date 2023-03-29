@@ -2,7 +2,9 @@ from time import perf_counter
 
 
 def code():
-    pass
+    i = 0
+    while i < 50000000:
+        i += 1
 
 
 st = perf_counter()

@@ -3,7 +3,7 @@
 
 ---
 **Cipher** is a simple programming language,
-aimed to match the *simplicity* of Python but *perform faster*.
+designed to match the *simplicity* of Python but *perform faster*.
 
 Cipher is **~1.3x** as fast as Python as of **version 3.11.2** on my testing.
 

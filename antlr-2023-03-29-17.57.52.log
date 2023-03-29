@@ -1,0 +1,121 @@
+2023-03-29 17:57:51:355 grammar LogManager.java:25 before: (COMBINED_GRAMMAR Cipher (RULES (RULE ASSIGN (BLOCK (ALT '='))) (RULE DOT (BLOCK (ALT '.'))) (RULE COMMA (BLOCK (ALT ','))) (RULE QUESTION (BLOCK (ALT '?'))) (RULE NOT (BLOCK (ALT '!') (ALT 'not'))) (RULE PREDTWO (BLOCK (ALT (BLOCK (ALT '+') (ALT '-') (ALT '^'))))) (RULE PREDONE (BLOCK (ALT (BLOCK (ALT '*') (ALT '/') (ALT '%'))))) (RULE COMPARATIVE (BLOCK (ALT (BLOCK (ALT '==') (ALT '!=') (ALT '>') (ALT '<') (ALT '<=') (ALT '>=') (ALT '&&') (ALT '||'))))) (RULE FUNC (BLOCK (ALT 'func'))) (RULE IF (BLOCK (ALT 'if'))) (RULE ELSE (BLOCK (ALT 'else'))) (RULE WHILE (BLOCK (ALT 'while'))) (RULE USE (BLOCK (ALT 'use'))) (RULE OVERRIDE (BLOCK (ALT 'override'))) (RULE PUBLIC (BLOCK (ALT 'public'))) (RULE PRIVATE (BLOCK (ALT 'private'))) (RULE RETURN (BLOCK (ALT 'return'))) (RULE BREAK (BLOCK (ALT 'break'))) (RULE CONTINUE (BLOCK (ALT 'continue'))) (RULE CONST (BLOCK (ALT 'const'))) (RULE WS (BLOCK (LEXER_ALT_ACTION (ALT (+ (BLOCK (ALT [ \t\r\n])))) skip))) (RULE COMMENT (BLOCK (LEXER_ALT_ACTION (ALT (BLOCK (ALT '//') (ALT '<--') (ALT '#')) (* (BLOCK (ALT (~ (SET [\r\n])))))) skip))) (RULE MULTILINECOMMENT (BLOCK (LEXER_ALT_ACTION (ALT '/*' (* (BLOCK (ALT .))) '*/') skip))) (RULE BOOL (BLOCK (ALT 'true') (ALT 'false'))) (RULE NULL (BLOCK (ALT 'null'))) (RULE ID (BLOCK (ALT [a-zA-Z_] (* (BLOCK (ALT [a-zA-Z_0-9])))))) (RULE INT (BLOCK (ALT (? (BLOCK (ALT '-'))) (+ (BLOCK (ALT [0-9])))))) (RULE FLOAT (BLOCK (ALT (? (BLOCK (ALT '-'))) (* (BLOCK (ALT [0-9]))) '.' (+ (BLOCK (ALT [0-9])))))) (RULE STRING (BLOCK (ALT '"' (* (BLOCK (ALT .))) '"') (ALT '\'' (* (BLOCK (ALT .))) '\''))) (RULE parse (BLOCK (ALT (* (BLOCK (ALT stmt))) EOF))) (RULE block (BLOCK (ALT '{' (* (BLOCK (ALT stmt))) '}'))) (RULE stmt (BLOCK (ALT expr) (ALT assignments) (ALT allStmts) (ALT keywordStmts))) (RULE keywordStmts (BLOCK (ALT BREAK) (ALT CONTINUE) (ALT RETURN expr))) (RULE allStmts (BLOCK (ALT ifStmt) (ALT whileStmt) (ALT useStmt))) (RULE useStmt (BLOCK (ALT 'use' STRING))) (RULE ifStmt (BLOCK (ALT IF condition block (* (BLOCK (ALT ELSE IF condition block))) (? (BLOCK (ALT ELSE block)))))) (RULE whileStmt (BLOCK (ALT 'while' condition block))) (RULE condition (BLOCK (ALT expr))) (RULE args (BLOCK (ALT expr (* (BLOCK (ALT ',' expr)))))) (RULE params (BLOCK (ALT ID (* (BLOCK (ALT ',' ID)))))) (RULE call (BLOCK (ALT ID '(' (? (BLOCK (ALT args))) ')'))) (RULE assignments (BLOCK (ALT varAssign) (ALT funcAssign))) (RULE varAssign (BLOCK (ALT (? (BLOCK (ALT PUBLIC) (ALT PRIVATE))) (? (BLOCK (ALT CONST))) ID (? (BLOCK (ALT PREDONE) (ALT PREDTWO))) ASSIGN expr))) (RULE funcAssign (BLOCK (ALT (? (BLOCK (ALT PUBLIC) (ALT PRIVATE))) 'func' (? (BLOCK (ALT OVERRIDE))) ID '(' (? (BLOCK (ALT params))) ')' block))) (RULE getAttributes (BLOCK (ALT (BLOCK (ALT STRING) (ALT ID)) '.' ID '(' (? (BLOCK (ALT args))) ')'))) (RULE memoryAddress (BLOCK (ALT '&' ID))) (RULE cast (BLOCK (ALT atom '.' '(' ID ')'))) (RULE expr (BLOCK (ALT call) (ALT atom) (ALT '(' expr ')') (ALT (= op NOT) expr) (ALT expr (= op PREDONE) expr) (ALT expr (= op PREDTWO) expr) (ALT expr (= op COMPARATIVE) expr) (ALT cast) (ALT getAttributes) (ALT memoryAddress))) (RULE array (BLOCK (ALT '[' (? (BLOCK (ALT args))) ']'))) (RULE atom (BLOCK (ALT array) (ALT ID) (ALT INT) (ALT FLOAT) (ALT STRING) (ALT NULL) (ALT BOOL)))))
+2023-03-29 17:57:51:377 grammar LogManager.java:25 after: (COMBINED_GRAMMAR Cipher (RULES (RULE ASSIGN (BLOCK (ALT '='))) (RULE DOT (BLOCK (ALT '.'))) (RULE COMMA (BLOCK (ALT ','))) (RULE QUESTION (BLOCK (ALT '?'))) (RULE NOT (BLOCK (ALT '!') (ALT 'not'))) (RULE PREDTWO (BLOCK (ALT (SET '+' '-' '^')))) (RULE PREDONE (BLOCK (ALT (SET '*' '/' '%')))) (RULE COMPARATIVE (BLOCK (ALT (BLOCK (ALT '==') (ALT '!=') (ALT '>') (ALT '<') (ALT '<=') (ALT '>=') (ALT '&&') (ALT '||'))))) (RULE FUNC (BLOCK (ALT 'func'))) (RULE IF (BLOCK (ALT 'if'))) (RULE ELSE (BLOCK (ALT 'else'))) (RULE WHILE (BLOCK (ALT 'while'))) (RULE USE (BLOCK (ALT 'use'))) (RULE OVERRIDE (BLOCK (ALT 'override'))) (RULE PUBLIC (BLOCK (ALT 'public'))) (RULE PRIVATE (BLOCK (ALT 'private'))) (RULE RETURN (BLOCK (ALT 'return'))) (RULE BREAK (BLOCK (ALT 'break'))) (RULE CONTINUE (BLOCK (ALT 'continue'))) (RULE CONST (BLOCK (ALT 'const'))) (RULE WS (BLOCK (LEXER_ALT_ACTION (ALT (+ (BLOCK (ALT [ \t\r\n])))) skip))) (RULE COMMENT (BLOCK (LEXER_ALT_ACTION (ALT (BLOCK (ALT '//') (ALT '<--') (ALT '#')) (* (BLOCK (ALT (~ (SET [\r\n])))))) skip))) (RULE MULTILINECOMMENT (BLOCK (LEXER_ALT_ACTION (ALT '/*' (* (BLOCK (ALT .))) '*/') skip))) (RULE BOOL (BLOCK (ALT 'true') (ALT 'false'))) (RULE NULL (BLOCK (ALT 'null'))) (RULE ID (BLOCK (ALT [a-zA-Z_] (* (BLOCK (ALT [a-zA-Z_0-9])))))) (RULE INT (BLOCK (ALT (? (BLOCK (ALT '-'))) (+ (BLOCK (ALT [0-9])))))) (RULE FLOAT (BLOCK (ALT (? (BLOCK (ALT '-'))) (* (BLOCK (ALT [0-9]))) '.' (+ (BLOCK (ALT [0-9])))))) (RULE STRING (BLOCK (ALT '"' (* (BLOCK (ALT .))) '"') (ALT '\'' (* (BLOCK (ALT .))) '\''))) (RULE parse (BLOCK (ALT (* (BLOCK (ALT stmt))) EOF))) (RULE block (BLOCK (ALT '{' (* (BLOCK (ALT stmt))) '}'))) (RULE stmt (BLOCK (ALT expr) (ALT assignments) (ALT allStmts) (ALT keywordStmts))) (RULE keywordStmts (BLOCK (ALT BREAK) (ALT CONTINUE) (ALT RETURN expr))) (RULE allStmts (BLOCK (ALT ifStmt) (ALT whileStmt) (ALT useStmt))) (RULE useStmt (BLOCK (ALT 'use' STRING))) (RULE ifStmt (BLOCK (ALT IF condition block (* (BLOCK (ALT ELSE IF condition block))) (? (BLOCK (ALT ELSE block)))))) (RULE whileStmt (BLOCK (ALT 'while' condition block))) (RULE condition (BLOCK (ALT expr))) (RULE args (BLOCK (ALT expr (* (BLOCK (ALT ',' expr)))))) (RULE params (BLOCK (ALT ID (* (BLOCK (ALT ',' ID)))))) (RULE call (BLOCK (ALT ID '(' (? (BLOCK (ALT args))) ')'))) (RULE assignments (BLOCK (ALT varAssign) (ALT funcAssign))) (RULE varAssign (BLOCK (ALT (? (BLOCK (ALT (SET PUBLIC PRIVATE)))) (? (BLOCK (ALT CONST))) ID (? (BLOCK (ALT (SET PREDONE PREDTWO)))) ASSIGN expr))) (RULE funcAssign (BLOCK (ALT (? (BLOCK (ALT (SET PUBLIC PRIVATE)))) 'func' (? (BLOCK (ALT OVERRIDE))) ID '(' (? (BLOCK (ALT params))) ')' block))) (RULE getAttributes (BLOCK (ALT (SET STRING ID) '.' ID '(' (? (BLOCK (ALT args))) ')'))) (RULE memoryAddress (BLOCK (ALT '&' ID))) (RULE cast (BLOCK (ALT atom '.' '(' ID ')'))) (RULE expr (BLOCK (ALT call) (ALT atom) (ALT '(' expr ')') (ALT (= op NOT) expr) (ALT expr (= op PREDONE) expr) (ALT expr (= op PREDTWO) expr) (ALT expr (= op COMPARATIVE) expr) (ALT cast) (ALT getAttributes) (ALT memoryAddress))) (RULE array (BLOCK (ALT '[' (? (BLOCK (ALT args))) ']'))) (RULE atom (BLOCK (ALT array) (ALT ID) (ALT INT) (ALT FLOAT) (ALT STRING) (ALT NULL) (ALT BOOL)))))
+2023-03-29 17:57:51:406 grammar LogManager.java:25 after extract implicit lexer =(COMBINED_GRAMMAR Cipher (RULES (RULE parse (BLOCK (ALT (* (BLOCK (ALT stmt))) EOF))) (RULE block (BLOCK (ALT '{' (* (BLOCK (ALT stmt))) '}'))) (RULE stmt (BLOCK (ALT expr) (ALT assignments) (ALT allStmts) (ALT keywordStmts))) (RULE keywordStmts (BLOCK (ALT BREAK) (ALT CONTINUE) (ALT RETURN expr))) (RULE allStmts (BLOCK (ALT ifStmt) (ALT whileStmt) (ALT useStmt))) (RULE useStmt (BLOCK (ALT 'use' STRING))) (RULE ifStmt (BLOCK (ALT IF condition block (* (BLOCK (ALT ELSE IF condition block))) (? (BLOCK (ALT ELSE block)))))) (RULE whileStmt (BLOCK (ALT 'while' condition block))) (RULE condition (BLOCK (ALT expr))) (RULE args (BLOCK (ALT expr (* (BLOCK (ALT ',' expr)))))) (RULE params (BLOCK (ALT ID (* (BLOCK (ALT ',' ID)))))) (RULE call (BLOCK (ALT ID '(' (? (BLOCK (ALT args))) ')'))) (RULE assignments (BLOCK (ALT varAssign) (ALT funcAssign))) (RULE varAssign (BLOCK (ALT (? (BLOCK (ALT (SET PUBLIC PRIVATE)))) (? (BLOCK (ALT CONST))) ID (? (BLOCK (ALT (SET PREDONE PREDTWO)))) ASSIGN expr))) (RULE funcAssign (BLOCK (ALT (? (BLOCK (ALT (SET PUBLIC PRIVATE)))) 'func' (? (BLOCK (ALT OVERRIDE))) ID '(' (? (BLOCK (ALT params))) ')' block))) (RULE getAttributes (BLOCK (ALT (SET STRING ID) '.' ID '(' (? (BLOCK (ALT args))) ')'))) (RULE memoryAddress (BLOCK (ALT '&' ID))) (RULE cast (BLOCK (ALT atom '.' '(' ID ')'))) (RULE expr (BLOCK (ALT call) (ALT atom) (ALT '(' expr ')') (ALT (= op NOT) expr) (ALT expr (= op PREDONE) expr) (ALT expr (= op PREDTWO) expr) (ALT expr (= op COMPARATIVE) expr) (ALT cast) (ALT getAttributes) (ALT memoryAddress))) (RULE array (BLOCK (ALT '[' (? (BLOCK (ALT args))) ']'))) (RULE atom (BLOCK (ALT array) (ALT ID) (ALT INT) (ALT FLOAT) (ALT STRING) (ALT NULL) (ALT BOOL)))))
+2023-03-29 17:57:51:406 grammar LogManager.java:25 lexer =(LEXER_GRAMMAR CipherLexer (RULES (RULE T__0 (BLOCK (ALT '{'))) (RULE T__1 (BLOCK (ALT '}'))) (RULE T__2 (BLOCK (ALT '('))) (RULE T__3 (BLOCK (ALT ')'))) (RULE T__4 (BLOCK (ALT '&'))) (RULE T__5 (BLOCK (ALT '['))) (RULE T__6 (BLOCK (ALT ']'))) (RULE ASSIGN (BLOCK (ALT '='))) (RULE DOT (BLOCK (ALT '.'))) (RULE COMMA (BLOCK (ALT ','))) (RULE QUESTION (BLOCK (ALT '?'))) (RULE NOT (BLOCK (ALT '!') (ALT 'not'))) (RULE PREDTWO (BLOCK (ALT (SET '+' '-' '^')))) (RULE PREDONE (BLOCK (ALT (SET '*' '/' '%')))) (RULE COMPARATIVE (BLOCK (ALT (BLOCK (ALT '==') (ALT '!=') (ALT '>') (ALT '<') (ALT '<=') (ALT '>=') (ALT '&&') (ALT '||'))))) (RULE FUNC (BLOCK (ALT 'func'))) (RULE IF (BLOCK (ALT 'if'))) (RULE ELSE (BLOCK (ALT 'else'))) (RULE WHILE (BLOCK (ALT 'while'))) (RULE USE (BLOCK (ALT 'use'))) (RULE OVERRIDE (BLOCK (ALT 'override'))) (RULE PUBLIC (BLOCK (ALT 'public'))) (RULE PRIVATE (BLOCK (ALT 'private'))) (RULE RETURN (BLOCK (ALT 'return'))) (RULE BREAK (BLOCK (ALT 'break'))) (RULE CONTINUE (BLOCK (ALT 'continue'))) (RULE CONST (BLOCK (ALT 'const'))) (RULE WS (BLOCK (LEXER_ALT_ACTION (ALT (+ (BLOCK (ALT [ \t\r\n])))) skip))) (RULE COMMENT (BLOCK (LEXER_ALT_ACTION (ALT (BLOCK (ALT '//') (ALT '<--') (ALT '#')) (* (BLOCK (ALT (~ (SET [\r\n])))))) skip))) (RULE MULTILINECOMMENT (BLOCK (LEXER_ALT_ACTION (ALT '/*' (* (BLOCK (ALT .))) '*/') skip))) (RULE BOOL (BLOCK (ALT 'true') (ALT 'false'))) (RULE NULL (BLOCK (ALT 'null'))) (RULE ID (BLOCK (ALT [a-zA-Z_] (* (BLOCK (ALT [a-zA-Z_0-9])))))) (RULE INT (BLOCK (ALT (? (BLOCK (ALT '-'))) (+ (BLOCK (ALT [0-9])))))) (RULE FLOAT (BLOCK (ALT (? (BLOCK (ALT '-'))) (* (BLOCK (ALT [0-9]))) '.' (+ (BLOCK (ALT [0-9])))))) (RULE STRING (BLOCK (ALT '"' (* (BLOCK (ALT .))) '"') (ALT '\'' (* (BLOCK (ALT .))) '\'')))))
+2023-03-29 17:57:51:829 left-recursion LogManager.java:25 expr
+    :   ( {} call<tokenIndex=579> 
+        | atom<tokenIndex=583> 
+        | '('<tokenIndex=587> expr<tokenIndex=589> ')'<tokenIndex=591> 
+        | op=NOT<tokenIndex=597> expr<tokenIndex=599,p=7> 
+        | cast<tokenIndex=633> 
+        | getAttributes<tokenIndex=637> 
+        | memoryAddress<tokenIndex=641> 
+        )
+        (
+          {p.Precpred(p.GetParserRuleContext(), 6)}?<p=6> op=PREDONE<tokenIndex=607> expr<tokenIndex=609,p=7>
+                  | {p.Precpred(p.GetParserRuleContext(), 5)}?<p=5> op=PREDTWO<tokenIndex=617> expr<tokenIndex=619,p=6>
+                  | {p.Precpred(p.GetParserRuleContext(), 4)}?<p=4> op=COMPARATIVE<tokenIndex=627> expr<tokenIndex=629,p=5>
+        )*
+    ;
+2023-03-29 17:57:51:839 grammar LogManager.java:25 added: (RULE expr (BLOCK (ALT (BLOCK (ALT {} (call (ELEMENT_OPTIONS (= tokenIndex 579)))) (ALT (atom (ELEMENT_OPTIONS (= tokenIndex 583)))) (ALT ('(' (ELEMENT_OPTIONS (= tokenIndex 587))) (expr (ELEMENT_OPTIONS (= tokenIndex 589))) (')' (ELEMENT_OPTIONS (= tokenIndex 591)))) (ALT (= op (NOT (ELEMENT_OPTIONS (= tokenIndex 597)))) (expr (ELEMENT_OPTIONS (= tokenIndex 599) (= p 7)))) (ALT (cast (ELEMENT_OPTIONS (= tokenIndex 633)))) (ALT (getAttributes (ELEMENT_OPTIONS (= tokenIndex 637)))) (ALT (memoryAddress (ELEMENT_OPTIONS (= tokenIndex 641))))) (* (BLOCK (ALT ({p.Precpred(p.GetParserRuleContext(), 6)}? (ELEMENT_OPTIONS (= p 6))) (= op (PREDONE (ELEMENT_OPTIONS (= tokenIndex 607)))) (expr (ELEMENT_OPTIONS (= tokenIndex 609) (= p 7)))) (ALT ({p.Precpred(p.GetParserRuleContext(), 5)}? (ELEMENT_OPTIONS (= p 5))) (= op (PREDTWO (ELEMENT_OPTIONS (= tokenIndex 617)))) (expr (ELEMENT_OPTIONS (= tokenIndex 619) (= p 6)))) (ALT ({p.Precpred(p.GetParserRuleContext(), 4)}? (ELEMENT_OPTIONS (= p 4))) (= op (COMPARATIVE (ELEMENT_OPTIONS (= tokenIndex 627)))) (expr (ELEMENT_OPTIONS (= tokenIndex 629) (= p 5)))))))))
+2023-03-29 17:57:51:843 semantics LogManager.java:25 tokens={EOF=-1, T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, ASSIGN=8, DOT=9, COMMA=10, QUESTION=11, NOT=12, PREDTWO=13, PREDONE=14, COMPARATIVE=15, FUNC=16, IF=17, ELSE=18, WHILE=19, USE=20, OVERRIDE=21, PUBLIC=22, PRIVATE=23, RETURN=24, BREAK=25, CONTINUE=26, CONST=27, WS=28, COMMENT=29, MULTILINECOMMENT=30, BOOL=31, NULL=32, ID=33, INT=34, FLOAT=35, STRING=36}
+2023-03-29 17:57:51:843 semantics LogManager.java:25 strings={'{'=1, '}'=2, '('=3, ')'=4, '&'=5, '['=6, ']'=7, '='=8, '.'=9, ','=10, '?'=11, 'func'=16, 'if'=17, 'else'=18, 'while'=19, 'use'=20, 'override'=21, 'public'=22, 'private'=23, 'return'=24, 'break'=25, 'continue'=26, 'const'=27, 'null'=32}
+2023-03-29 17:57:51:877 LL1 LogManager.java:25 
+DECISION 0 in rule parse
+2023-03-29 17:57:51:880 LL1 LogManager.java:25 look=[{3, 5..6, 12, 16..17, 19..20, 22..27, 31..36}, <EOF>]
+2023-03-29 17:57:51:881 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:881 LL1 LogManager.java:25 
+DECISION 1 in rule block
+2023-03-29 17:57:51:888 LL1 LogManager.java:25 look=[{3, 5..6, 12, 16..17, 19..20, 22..27, 31..36}, 2]
+2023-03-29 17:57:51:888 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:888 LL1 LogManager.java:25 
+DECISION 2 in rule stmt
+2023-03-29 17:57:51:888 LL1 LogManager.java:25 look=[{3, 5..6, 12, 31..36}, {16, 22..23, 27, 33}, {17, 19..20}, {24..26}]
+2023-03-29 17:57:51:888 LL1 LogManager.java:25 LL(1)? false
+2023-03-29 17:57:51:888 LL1 LogManager.java:25 
+DECISION 3 in rule keywordStmts
+2023-03-29 17:57:51:888 LL1 LogManager.java:25 look=[25, 26, 24]
+2023-03-29 17:57:51:889 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:889 LL1 LogManager.java:25 
+DECISION 4 in rule allStmts
+2023-03-29 17:57:51:889 LL1 LogManager.java:25 look=[17, 19, 20]
+2023-03-29 17:57:51:889 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:889 LL1 LogManager.java:25 
+DECISION 5 in rule ifStmt
+2023-03-29 17:57:51:893 LL1 LogManager.java:25 look=[18, {<EOF>, 2..3, 5..6, 12, 16..20, 22..27, 31..36}]
+2023-03-29 17:57:51:893 LL1 LogManager.java:25 LL(1)? false
+2023-03-29 17:57:51:893 LL1 LogManager.java:25 
+DECISION 6 in rule ifStmt
+2023-03-29 17:57:51:893 LL1 LogManager.java:25 look=[18, {<EOF>, 2..3, 5..6, 12, 16..17, 19..20, 22..27, 31..36}]
+2023-03-29 17:57:51:893 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:893 LL1 LogManager.java:25 
+DECISION 7 in rule args
+2023-03-29 17:57:51:893 LL1 LogManager.java:25 look=[10, {4, 7}]
+2023-03-29 17:57:51:893 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:893 LL1 LogManager.java:25 
+DECISION 8 in rule params
+2023-03-29 17:57:51:894 LL1 LogManager.java:25 look=[10, 4]
+2023-03-29 17:57:51:894 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:894 LL1 LogManager.java:25 
+DECISION 9 in rule call
+2023-03-29 17:57:51:903 LL1 LogManager.java:25 look=[{3, 5..6, 12, 31..36}, 4]
+2023-03-29 17:57:51:903 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:903 LL1 LogManager.java:25 
+DECISION 10 in rule assignments
+2023-03-29 17:57:51:903 LL1 LogManager.java:25 look=[{22..23, 27, 33}, {16, 22..23}]
+2023-03-29 17:57:51:903 LL1 LogManager.java:25 LL(1)? false
+2023-03-29 17:57:51:903 LL1 LogManager.java:25 
+DECISION 11 in rule varAssign
+2023-03-29 17:57:51:903 LL1 LogManager.java:25 look=[{22..23}, {27, 33}]
+2023-03-29 17:57:51:903 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:903 LL1 LogManager.java:25 
+DECISION 12 in rule varAssign
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 look=[27, 33]
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 
+DECISION 13 in rule varAssign
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 look=[{13..14}, 8]
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 
+DECISION 14 in rule funcAssign
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 look=[{22..23}, 16]
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 
+DECISION 15 in rule funcAssign
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 look=[21, 33]
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 
+DECISION 16 in rule funcAssign
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 look=[33, 4]
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:904 LL1 LogManager.java:25 
+DECISION 17 in rule getAttributes
+2023-03-29 17:57:51:906 LL1 LogManager.java:25 look=[{3, 5..6, 12, 31..36}, 4]
+2023-03-29 17:57:51:906 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:906 LL1 LogManager.java:25 
+DECISION 18 in rule expr
+2023-03-29 17:57:51:906 LL1 LogManager.java:25 look=[33, {6, 31..36}, 3, 12, {6, 31..36}, {33, 36}, 5]
+2023-03-29 17:57:51:906 LL1 LogManager.java:25 LL(1)? false
+2023-03-29 17:57:51:906 LL1 LogManager.java:25 
+DECISION 19 in rule expr
+2023-03-29 17:57:51:906 LL1 LogManager.java:25 look=[null, null, null]
+2023-03-29 17:57:51:906 LL1 LogManager.java:25 LL(1)? false
+2023-03-29 17:57:51:906 LL1 LogManager.java:25 
+DECISION 20 in rule expr
+2023-03-29 17:57:51:907 LL1 LogManager.java:25 look=[null, null]
+2023-03-29 17:57:51:907 LL1 LogManager.java:25 LL(1)? false
+2023-03-29 17:57:51:907 LL1 LogManager.java:25 
+DECISION 21 in rule array
+2023-03-29 17:57:51:908 LL1 LogManager.java:25 look=[{3, 5..6, 12, 31..36}, 7]
+2023-03-29 17:57:51:908 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:908 LL1 LogManager.java:25 
+DECISION 22 in rule atom
+2023-03-29 17:57:51:908 LL1 LogManager.java:25 look=[6, 33, 34, 35, 36, 32, 31]
+2023-03-29 17:57:51:908 LL1 LogManager.java:25 LL(1)? true
+2023-03-29 17:57:51:981 action-translator LogManager.java:25 translate 
+2023-03-29 17:57:51:983 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 6)
+2023-03-29 17:57:51:984 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 5)
+2023-03-29 17:57:51:986 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 4)
+2023-03-29 17:57:51:987 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 6)
+2023-03-29 17:57:51:987 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 5)
+2023-03-29 17:57:51:987 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 4)

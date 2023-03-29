@@ -1,5 +1,2 @@
-func myfunc() {
-    println("Hello World")
-}
-
-myfunc()
+w = [true, false, false, true, true]
+println(all(w))
